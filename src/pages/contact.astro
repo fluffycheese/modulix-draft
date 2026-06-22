@@ -1,0 +1,284 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contact Modulix",
+  "description": "Get in touch with Modulix to request access to the platform, ask architecture questions, or request a migration estimate."
+};
+---
+
+<BaseLayout
+  title="Request Access & Consultations - Modulix"
+  description="Contact the Modulix platform team to request private cloud access, arrange a technical infrastructure audit, or discuss custom blueprints."
+  schema={schema}
+>
+  <div class="contact-page">
+    <div class="header-container">
+      <div class="badge">Platform Access</div>
+      <h1>Start Building with <span class="gradient-text">Blueprints</span></h1>
+      <p class="subtitle">
+        Request private access or schedule a detailed technical architecture audit with our principal platform engineers.
+      </p>
+    </div>
+
+    <div class="contact-container">
+      <!-- Contact Info Sidebar -->
+      <div class="info-sidebar">
+        <div class="glass-card sidebar-card">
+          <h3>Ecosystem Roots</h3>
+          <p>
+            Modulix is part of the <strong>FluffyCheese</strong> infrastructure family, operating secure bare-metal clusters and virtual private environments out of Newbury, Berkshire.
+          </p>
+          <div class="location-details">
+            <span class="loc-icon">📍</span>
+            <div>
+              <strong>Location</strong>
+              <p>Newbury, Berkshire, United Kingdom</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card sidebar-card accent-card">
+          <h3>Why a consultation?</h3>
+          <p>
+            Modulix is not a standard click-and-pay hosting provider. We build sovereign, hardened infrastructure. 
+          </p>
+          <p>
+            During our initial review, we evaluate your existing containers, deployment models, and data security requirements to map out the ideal blueprint.
+          </p>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="glass-card form-card">
+        <h2>Consultation Request Form</h2>
+        <form action="#" method="POST" id="contactForm" onsubmit="event.preventDefault(); alert('Thank you! This is a demo request. In production, this submits to our Gitea/Woodpecker Webhook pipeline.');">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Your Name *</label>
+              <input type="text" id="name" name="name" required placeholder="Steve Johnson" />
+            </div>
+            <div class="form-group">
+              <label for="email">Work Email *</label>
+              <input type="email" id="email" name="email" required placeholder="steve@company.com" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="company">Company Name</label>
+            <input type="text" id="company" name="company" placeholder="Example Digital Ltd" />
+          </div>
+
+          <div class="form-group">
+            <label for="interest">Area of Interest *</label>
+            <select id="interest" name="interest" required>
+              <option value="">-- Please Select --</option>
+              <option value="standard">Standard Tier (Debian + Swarm) - £300/mo</option>
+              <option value="enterprise">Enterprise Tier (NixOS Immutable) - £1,200/mo</option>
+              <option value="ai">AI-Managed Enhancement - +£300/mo</option>
+              <option value="migration">Custom Blueprinting / Migration Audit</option>
+              <option value="other">General Technical Inquiry</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Infrastructure Details / Messages *</label>
+            <textarea id="message" name="message" rows="5" required placeholder="Tell us about your current technology stack (e.g., AWS, VPS, Docker Compose, or manual VM configurations) and what you want to accomplish..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="formSubmitBtn">Submit Request</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    // Autofill interest dropdown based on URL parameter (?tier=xxx or ?topic=xxx)
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const tier = params.get('tier');
+      const topic = params.get('topic');
+      const select = document.getElementById('interest');
+
+      if (select) {
+        if (tier) {
+          if (tier === 'standard') select.value = 'standard';
+          else if (tier === 'enterprise') select.value = 'enterprise';
+          else if (tier === 'ai') select.value = 'ai';
+        } else if (topic === 'migration') {
+          select.value = 'migration';
+        }
+      }
+    });
+  </script>
+
+  <style>
+    .contact-page {
+      display: flex;
+      flex-direction: column;
+      gap: 4rem;
+    }
+
+    .header-container {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header-container p {
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      color: var(--accent-cyan);
+      padding: 0.35rem 0.85rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      line-height: 1.6;
+    }
+
+    /* Layout */
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      align-items: start;
+      gap: 3rem;
+    }
+
+    .info-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .sidebar-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.75rem;
+      color: #ffffff;
+    }
+
+    .sidebar-card p {
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .accent-card {
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+
+    .location-details {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .loc-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .location-details strong {
+      color: #ffffff;
+      font-size: 0.95rem;
+    }
+
+    .location-details p {
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    /* Form Card */
+    .form-card {
+      padding: 3rem;
+    }
+
+    .form-card h2 {
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      width: 100%;
+    }
+
+    .form-group label {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #ffffff;
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      width: 100%;
+    }
+
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.15);
+    }
+
+    .form-group select option {
+      background: var(--card-bg);
+      color: #ffffff;
+    }
+
+    /* Responsive Adaptation */
+    @media (max-width: 992px) {
+      .contact-container {
+        grid-template-columns: 1fr;
+      }
+      .form-card {
+        padding: 2rem 1.5rem;
+      }
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+    }
+  </style>
+</Layout>

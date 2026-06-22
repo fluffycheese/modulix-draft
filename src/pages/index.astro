@@ -1,0 +1,464 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Modulix Platform",
+  "operatingSystem": "Linux (NixOS / Debian)",
+  "applicationCategory": "DevOps & Infrastructure Automation",
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "GBP",
+    "price": "300.00"
+  },
+  "description": "Autonomous, blueprint-driven, private infrastructure that eliminates drift and vendor lock-in through declarative code and local AI agents."
+};
+---
+
+<BaseLayout
+  title="Modulix - The Autonomous Infrastructure Platform"
+  description="Choice. Open Source. Self-Hosted. Modulix replaces fragile, manual IT management with a declarative, self-healing, and AI-augmented private cloud platform."
+  schema={schema}
+>
+  <!-- Hero Section -->
+  <section class="hero-section" id="hero">
+    <div class="hero-content">
+      <div class="badge">Next-Gen Managed Infrastructure</div>
+      <h1>Your Infrastructure, Your Control — <span class="gradient-text">Fully Automated</span></h1>
+      <p class="hero-subtitle">
+        Modulix is an open-source, blueprint-driven platform that delivers immutable, sovereign, and self-healing server environments for SMEs, agencies, and developers.
+      </p>
+      <div class="hero-ctas">
+        <a href="/pricing/" class="btn btn-primary" id="heroExploreCta">Explore Service Tiers</a>
+        <a href="/visualizer/" class="btn btn-secondary" id="heroDemoCta">Launch Interactive Demo</a>
+      </div>
+    </div>
+    
+    <!-- Abstract 3D Hero Art (CSS Mockup of Stacked Blueprints) -->
+    <div class="hero-visual" aria-hidden="true">
+      <div class="visual-stack">
+        <div class="visual-layer layer-top">
+          <div class="layer-info">NixOS / Sovereign AI</div>
+        </div>
+        <div class="visual-layer layer-mid">
+          <div class="layer-info">Docker Swarm / Parity</div>
+        </div>
+        <div class="visual-layer layer-base">
+          <div class="layer-info">Hardened Canopy Baseline</div>
+        </div>
+      </div>
+      <div class="glow-sphere"></div>
+    </div>
+  </section>
+
+  <!-- Key Pillars Section -->
+  <section class="pillars-section" id="features">
+    <div class="section-header">
+      <h2>Built on Three Uncompromising Pillars</h2>
+      <p>Modulix bridges the gap between community-driven innovation and enterprise-grade stability.</p>
+    </div>
+    <div class="pillars-grid">
+      <div class="glass-card pillar-card">
+        <div class="card-icon cyan-icon">🛡️</div>
+        <h3>Choice of Infrastructure</h3>
+        <p>No vendor lock-in. Host on our high-performance private cloud, deploy on your own bare-metal hardware, or manage environments across independent tier-2 providers.</p>
+      </div>
+      <div class="glass-card pillar-card">
+        <div class="card-icon blue-icon">🧬</div>
+        <h3>Open Source & Declarative</h3>
+        <p>Your entire system defined as a code asset. Powered by NixOS for total immutability, Docker Swarm for lightweight orchestration, and Terraform for reproducibility.</p>
+      </div>
+      <div class="glass-card pillar-card">
+        <div class="card-icon purple-icon">🤖</div>
+        <h3>AI-Ops Orchestration</h3>
+        <p>Specialized local AI agents (Transpile, QA, Self-Heal) automate the complexity, allowing a single human architect to manage thousands of server endpoints.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Jenga vs Blueprint (The Core Analogy) -->
+  <section class="analogy-section" id="analogy">
+    <div class="analogy-container">
+      <div class="analogy-text">
+        <div class="badge badge-accent">The Core Analogy</div>
+        <h2>Other Clouds Play Jenga.<br /><span class="gradient-text">Ours Follows a Blueprint.</span></h2>
+        <p>
+          Most IT systems suffer from <strong>Configuration Drift</strong>. Every patch, update, or tweak is like removing a brick from a Jenga tower. The tower looks fine... until one day it collapses.
+        </p>
+        <p>
+          Modulix treats servers like 3D-printed assets. We maintain a declarative plan. If a node drifts, fails, or leans, our platform <strong>rebuilds it instantly from source</strong>. No wobbly towers. No downtime.
+        </p>
+        <div class="analogy-cta">
+          <a href="/visualizer/" class="btn btn-secondary" id="inlineDemoCta">See Physics Simulation &rarr;</a>
+        </div>
+      </div>
+
+      <div class="glass-card analogy-table-card">
+        <h3>Operational Contrast</h3>
+        <table class="contrast-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Traditional IT (Mutable)</th>
+              <th>Modulix (Blueprint-Based)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Change Model</strong></td>
+              <td>Edit live servers</td>
+              <td>Redefine desired state</td>
+            </tr>
+            <tr>
+              <td><strong>Configuration Risk</strong></td>
+              <td>Hidden drift, decay</td>
+              <td>100% predictable, versioned</td>
+            </tr>
+            <tr>
+              <td><strong>Recovery Path</strong></td>
+              <td>Manual troubleshooting</td>
+              <td>One-click automated rebuild</td>
+            </tr>
+            <tr>
+              <td><strong>Headcount Scaling</strong></td>
+              <td>Linear (Need more techs)</td>
+              <td>Exponential (Headcount decoupled)</td>
+            </tr>
+            <tr>
+              <td><strong>Auditability</strong></td>
+              <td>Often manual / opaque</td>
+              <td>Traceable Git commits</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Embedded Interactive Demo Section -->
+  <section class="interactive-preview-section">
+    <div class="section-header">
+      <h2>Interactive Simulation Preview</h2>
+      <p>Test the resilience of both philosophies in real-time with our 3D physics demo.</p>
+    </div>
+    <div class="iframe-container glass-card">
+      <iframe src="/visualizer/index.html" title="Modulix Jenga vs Blueprint Physics Visualizer" id="visualizerIframe"></iframe>
+    </div>
+    <div class="iframe-caption">
+      <p>Click "Update Application" or "Update OS" to apply changes. Watch how mutable drift collapses the Jenga tower, while Modulix instantly rebuilds from plans.</p>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="cta-banner">
+    <div class="cta-banner-content">
+      <h2>Ready to Build with Blueprints?</h2>
+      <p>Reclaim control of your infrastructure. Eliminate unpredictable hosting bills and security drift.</p>
+      <a href="/contact/" class="btn btn-primary btn-large" id="footerBannerContactCta">Schedule a Technical Audit</a>
+    </div>
+  </section>
+
+  <style>
+    /* Hero Section */
+    .hero-section {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: center;
+      gap: 4rem;
+      padding: 4rem 0 6rem 0;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      color: var(--accent-cyan);
+      padding: 0.35rem 0.85rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .badge-accent {
+      background: rgba(99, 102, 241, 0.1);
+      border-color: rgba(99, 102, 241, 0.2);
+      color: var(--accent-indigo);
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 50%, var(--accent-indigo) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* Hero Visual representation */
+    .hero-visual {
+      position: relative;
+      height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .visual-stack {
+      position: relative;
+      width: 280px;
+      height: 250px;
+      transform: rotateX(60deg) rotateZ(-45deg);
+      transform-style: preserve-3d;
+    }
+
+    .visual-layer {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      background: rgba(6, 182, 212, 0.05);
+      border: 2px solid var(--accent-cyan);
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(6, 182, 212, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      color: #ffffff;
+      font-size: 1rem;
+      transition: transform 0.5s ease;
+      cursor: pointer;
+    }
+
+    .layer-top {
+      transform: translateZ(90px);
+      border-color: var(--accent-cyan);
+      background: rgba(6, 182, 212, 0.15);
+      box-shadow: 0 0 40px rgba(6, 182, 212, 0.3);
+    }
+
+    .layer-mid {
+      transform: translateZ(45px);
+      border-color: var(--accent-blue);
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    .layer-base {
+      transform: translateZ(0px);
+      border-color: var(--accent-indigo);
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .visual-stack:hover .layer-top {
+      transform: translateZ(120px);
+    }
+
+    .visual-stack:hover .layer-mid {
+      transform: translateZ(60px);
+    }
+
+    .layer-info {
+      transform: rotateZ(45deg) rotateX(-60deg);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      white-space: nowrap;
+    }
+
+    .glow-sphere {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(6,182,212,0.15) 0%, rgba(0,0,0,0) 70%);
+      filter: blur(20px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Pillars Section */
+    .pillars-section, .analogy-section, .interactive-preview-section, .cta-banner {
+      padding: 6rem 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-header p {
+      margin: 0 auto;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .pillar-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .card-icon {
+      font-size: 2.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Analogy Section */
+    .analogy-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+    }
+
+    .analogy-text p {
+      margin-bottom: 1.25rem;
+    }
+
+    .analogy-cta {
+      margin-top: 2rem;
+    }
+
+    .analogy-table-card {
+      padding: 1.5rem;
+    }
+
+    /* Contrast Table Styling */
+    .contrast-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      margin-top: 1rem;
+    }
+
+    .contrast-table th, .contrast-table td {
+      padding: 1rem 0.75rem;
+      text-align: left;
+    }
+
+    .contrast-table th {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      color: #ffffff;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .contrast-table td {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .contrast-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .contrast-table td:nth-child(2) {
+      color: #fca5a5; /* Light Red */
+    }
+
+    .contrast-table td:nth-child(3) {
+      color: #a5f3fc; /* Light Cyan */
+      font-weight: 500;
+    }
+
+    /* Interactive Preview Section */
+    .iframe-container {
+      width: 100%;
+      height: 600px;
+      padding: 0;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .iframe-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    .iframe-caption {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* CTA Banner */
+    .cta-banner {
+      background: radial-gradient(circle at top right, rgba(6,182,212,0.1) 0%, rgba(99,102,241,0.05) 50%, rgba(9,9,11,1) 100%);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 6rem 4rem;
+      text-align: center;
+    }
+
+    .cta-banner-content h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-banner-content p {
+      margin: 0 auto 2.5rem auto;
+      font-size: 1.15rem;
+    }
+
+    .btn-large {
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+    }
+
+    /* Mobile Responsive Adaptation */
+    @media (max-width: 992px) {
+      .hero-section, .analogy-container {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+      }
+
+      .hero-visual {
+        height: 250px;
+      }
+
+      .visual-stack {
+        width: 180px;
+        height: 160px;
+      }
+
+      .visual-layer {
+        width: 150px;
+        height: 150px;
+      }
+
+      .hero-ctas {
+        justify-content: center;
+      }
+
+      .contrast-table {
+        font-size: 0.85rem;
+      }
+
+      .contrast-table th, .contrast-table td {
+        padding: 0.75rem 0.5rem;
+      }
+      
+      .cta-banner {
+        padding: 4rem 2rem;
+      }
+    }
+  </style>
+</Layout>

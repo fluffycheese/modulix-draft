@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modulix: Jenga vs Blueprint Visualizer</title>
+    <style>
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #121212; color: white; overflow: hidden; }
+        #container { display: flex; width: 100vw; height: 100vh; }
+        .side { flex: 1; position: relative; border-right: 1px solid #333; }
+        .side:last-child { border-right: none; }
+        .label { position: absolute; top: 20px; left: 20px; font-size: 1.5rem; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); z-index: 10; }
+        .status { position: absolute; bottom: 80px; left: 20px; font-size: 1rem; color: #aaa; z-index: 10; }
+        .controls { position: absolute; bottom: 20px; left: 20px; display: flex; gap: 10px; z-index: 10; }
+        button { background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: background 0.2s; }
+        button:hover { background: #2980b9; }
+        button.secondary { background: #e67e22; }
+        button.secondary:hover { background: #d35400; }
+        #overlay { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; text-align: center; z-index: 5; }
+        #overlay h1 { font-size: 8rem; margin: 0; opacity: 0.05; letter-spacing: 20px; }
+        .helper-text { position: absolute; top: 60px; left: 20px; font-size: 0.8rem; color: #666; max-width: 300px; z-index: 10; }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="mutable-side" class="side">
+            <div class="label">Mutable Infrastructure (The Jenga)</div>
+            <div class="helper-text">Manual updates cause "Configuration Drift". Each patch nudges the tower slightly. Over time, instability leads to inevitable collapse.</div>
+            <div id="mutable-status" class="status">Tower State: Stable</div>
+        </div>
+        <div id="immutable-side" class="side">
+            <div class="label">Immutable Infrastructure (Modulix)</div>
+            <div class="helper-text">Declarative updates rebuild from a "Blueprint". Every update is a fresh, perfect state. No drift. No instability. Total predictability.</div>
+            <div id="immutable-status" class="status">Tower State: Perfect</div>
+        </div>
+    </div>
+    
+    <div id="global-controls" style="position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 20px; z-index: 100; background: rgba(0,0,0,0.8); padding: 15px 30px; border-radius: 50px; border: 1px solid #444;">
+        <button onclick="triggerUnifiedUpdate('App')" style="font-size: 1.2rem; padding: 15px 30px;">Update Application</button>
+        <button onclick="triggerUnifiedUpdate('OS')" class="secondary" style="font-size: 1.2rem; padding: 15px 30px;">Update OS</button>
+        <button onclick="resetAll()" style="background: #555; font-size: 1rem; padding: 15px 20px;">Reset Demo</button>
+    </div>
+
+    <div id="overlay"><h1>MODULIX</h1></div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+                "cannon-es": "https://unpkg.com/cannon-es@0.20.0/dist/cannon-es.js"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import * as CANNON from 'cannon-es';
+
+        // --- COMMON CONFIG ---
+        const blockDim = { w: 3, h: 1, d: 1 };
+        const towerLevels = 10;
+        const driftIncrement = 0.05;
+        let mutableDrift = 0;
+        let updateCount = 0;
+        let isCollapsed = false;
+
+        // --- MUTABLE SCENE SETUP ---
+        const mutScene = new THREE.Scene();
+        mutScene.background = new THREE.Color(0x1a1a1a);
+        const mutCamera = new THREE.PerspectiveCamera(45, (window.innerWidth/2) / window.innerHeight, 0.1, 1000);
+        mutCamera.position.set(18, 15, 18);
+        mutCamera.lookAt(0, 5, 0);
+        
+        const mutRenderer = new THREE.WebGLRenderer({ antialias: true });
+        mutRenderer.setSize(window.innerWidth / 2, window.innerHeight);
+        document.getElementById('mutable-side').appendChild(mutRenderer.domElement);
+
+        let mutWorld = new CANNON.World();
+        mutWorld.gravity.set(0, -9.82, 0);
+
+        // --- IMMUTABLE SCENE SETUP ---
+        const immScene = new THREE.Scene();
+        immScene.background = new THREE.Color(0x121212);
+        const immCamera = new THREE.PerspectiveCamera(45, (window.innerWidth/2) / window.innerHeight, 0.1, 1000);
+        immCamera.position.set(18, 15, 18);
+        immCamera.lookAt(0, 5, 0);
+
+        const immRenderer = new THREE.WebGLRenderer({ antialias: true });
+        immRenderer.setSize(window.innerWidth / 2, window.innerHeight);
+        document.getElementById('immutable-side').appendChild(immRenderer.domElement);
+
+        // Lights
+        [mutScene, immScene].forEach(scene => {
+            const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambient);
+            const directional = new THREE.DirectionalLight(0xffffff, 1);
+            directional.position.set(10, 20, 10);
+            scene.add(directional);
+            
+            const grid = new THREE.GridHelper(20, 20, 0x444444, 0x222222);
+            scene.add(grid);
+        });
+
+        // --- OBJECT CREATION ---
+        let mutableBlocks = [];
+        let immutableBlocks = [];
+
+        function createBlock(scene, world, x, y, z, rotY, isMutable) {
+            const geometry = new THREE.BoxGeometry(blockDim.w * 0.98, blockDim.h * 0.98, blockDim.d * 0.98);
+            const material = new THREE.MeshPhongMaterial({ 
+                color: isMutable ? 0x95a5a6 : 0x3498db,
+                transparent: true,
+                opacity: 1
+            });
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.position.set(x, y, z);
+            mesh.rotation.y = rotY;
+            scene.add(mesh);
+
+            let body = null;
+            if (world) {
+                const shape = new CANNON.Box(new CANNON.Vec3(blockDim.w/2, blockDim.h/2, blockDim.d/2));
+                body = new CANNON.Body({ 
+                    mass: 1, 
+                    friction: 1.0, 
+                    restitution: 0.0,
+                    linearDamping: 0.1,
+                    angularDamping: 0.1
+                });
+                body.addShape(shape);
+                body.position.set(x, y, z);
+                body.quaternion.setFromEuler(0, rotY, 0);
+                world.addBody(body);
+            }
+
+            return { mesh, body };
+        }
+
+        function initTowers() {
+            // Clear existing
+            mutableBlocks.forEach(b => { mutScene.remove(b.mesh); if(b.body) mutWorld.removeBody(b.body); });
+            immutableBlocks.forEach(b => { immScene.remove(b.mesh); });
+            mutableBlocks = [];
+            immutableBlocks = [];
+
+            // Towers
+            for (let l = 0; l < towerLevels; l++) {
+                for (let i = 0; i < 3; i++) {
+                    const isEven = l % 2 === 0;
+                    
+                    // Corrected Spacing:
+                    // If even level: oriented along X (rotY=0), space along Z
+                    // If odd level: oriented along Z (rotY=PI/2), space along X
+                    const x = isEven ? 0 : (i - 1) * 1.05;
+                    const z = isEven ? (i - 1) * 1.05 : 0;
+                    const rotY = isEven ? 0 : Math.PI / 2;
+                    const y = l * blockDim.h + blockDim.h/2;
+
+                    mutableBlocks.push(createBlock(mutScene, mutWorld, x, y, z, rotY, true));
+                    immutableBlocks.push(createBlock(immScene, null, x, y, z, rotY, false));
+                }
+            }
+            
+            // Floor for physics
+            const floorShape = new CANNON.Plane();
+            const floorBody = new CANNON.Body({ mass: 0 });
+            floorBody.addShape(floorShape);
+            floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
+            mutWorld.addBody(floorBody);
+        }
+
+        initTowers();
+
+        // --- UPDATE LOGIC ---
+        window.triggerUnifiedUpdate = function(type) {
+            updateCount++;
+            
+            // 1. Immutable Side (Always Rebuilds)
+            const immStatus = document.getElementById('immutable-status');
+            immStatus.innerText = `REBUILDING FROM BLUEPRINT... (${type} Update)`;
+            immStatus.style.color = "#3498db";
+            
+            immutableBlocks.forEach((b, idx) => {
+                b.mesh.scale.set(0.1, 0.1, 0.1);
+                b.mesh.material.emissive.setHex(0x3498db);
+                b.mesh.material.emissiveIntensity = 2;
+                
+                setTimeout(() => {
+                    b.mesh.scale.set(1, 1, 1);
+                    b.mesh.material.emissive.setHex(0x000000);
+                    b.mesh.material.emissiveIntensity = 0;
+                }, 100 + (idx * 5)); // Ripple effect
+            });
+
+            setTimeout(() => {
+                immStatus.innerText = `Tower State: Perfect (Fresh Blueprint Applied)`;
+                immStatus.style.color = "#2ecc71";
+            }, 600);
+
+            // 2. Mutable Side (Drifts or Collapses)
+            const mutStatus = document.getElementById('mutable-status');
+            
+            if (isCollapsed) {
+                // If collapsed, the update "re-installs" but the Jenga tower is still prone to drift
+                mutStatus.innerText = `MANUAL REINSTALL... (Temporary Fix)`;
+                mutStatus.style.color = "#3498db";
+                resetMutableOnly();
+                return;
+            }
+
+            mutableDrift += driftIncrement;
+            
+            if (updateCount >= 5) {
+                // Collapse
+                isCollapsed = true;
+                mutStatus.innerText = `TOWER COLLAPSED: CRITICAL DRIFT`;
+                mutStatus.style.color = "#e74c3c";
+                mutableBlocks.forEach(b => {
+                    if(b.body) {
+                        b.body.applyImpulse(
+                            new CANNON.Vec3((Math.random()-0.5)*15, 5, (Math.random()-0.5)*15), 
+                            new CANNON.Vec3((Math.random()-0.5), 0.5, (Math.random()-0.5))
+                        );
+                    }
+                });
+            } else {
+                // Drift
+                mutStatus.innerText = `Drift Increasing... (Manual ${type} Patch)`;
+                mutStatus.style.color = updateCount > 3 ? "#e67e22" : "#f1c40f";
+                
+                // Nudge random blocks
+                for(let i=0; i<3; i++) {
+                    const idx = Math.floor(Math.random() * mutableBlocks.length);
+                    const b = mutableBlocks[idx];
+                    if (b.body) {
+                        b.body.applyImpulse(
+                            new CANNON.Vec3((Math.random()-0.5)*2, 0, (Math.random()-0.5)*2), 
+                            new CANNON.Vec3(0, 0.5, 0)
+                        );
+                    }
+                }
+            }
+        };
+
+        window.resetAll = function() {
+            updateCount = 0;
+            mutableDrift = 0;
+            isCollapsed = false;
+            document.getElementById('mutable-status').innerText = "Tower State: Stable";
+            document.getElementById('mutable-status').style.color = "#aaa";
+            document.getElementById('immutable-status').innerText = "Tower State: Perfect";
+            document.getElementById('immutable-status').style.color = "#aaa";
+            initTowers();
+        };
+
+        function resetMutableOnly() {
+            isCollapsed = false;
+            updateCount = 1; // Start with some drift history
+            mutableDrift = driftIncrement;
+            
+            // Re-init mutable blocks
+            mutableBlocks.forEach(b => { mutScene.remove(b.mesh); if(b.body) mutWorld.removeBody(b.body); });
+            mutableBlocks = [];
+            for (let l = 0; l < towerLevels; l++) {
+                for (let i = 0; i < 3; i++) {
+                    const isEven = l % 2 === 0;
+                    const x = isEven ? (i - 1) * 1.05 : 0;
+                    const z = isEven ? 0 : (i - 1) * 1.05;
+                    const rotY = isEven ? 0 : Math.PI / 2;
+                    const y = l * blockDim.h + blockDim.h/2;
+                    mutableBlocks.push(createBlock(mutScene, mutWorld, x, y, z, rotY, true));
+                }
+            }
+        }
+
+        // --- ANIMATION LOOP ---
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Step physics
+            mutWorld.fixedStep();
+
+            // Sync mutable meshes
+            mutableBlocks.forEach(b => {
+                if (b.body) {
+                    b.mesh.position.copy(b.body.position);
+                    b.mesh.quaternion.copy(b.body.quaternion);
+                }
+            });
+
+            mutRenderer.render(mutScene, mutCamera);
+            immRenderer.render(immScene, immCamera);
+        }
+
+        animate();
+
+        // Handle Resize
+        window.addEventListener('resize', () => {
+            const w = window.innerWidth / 2;
+            const h = window.innerHeight;
+            
+            [mutCamera, immCamera].forEach(cam => {
+                cam.aspect = w / h;
+                cam.updateProjectionMatrix();
+            });
+
+            [mutRenderer, immRenderer].forEach(rend => rend.setSize(w, h));
+        });
+
+    </script>
+</body>
+</html>

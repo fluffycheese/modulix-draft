@@ -1,0 +1,138 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Privacy Policy - Modulix"
+  description="Learn about our privacy practices, data processing policies, and GDPR compliance standards at Modulix."
+>
+  <div class="privacy-page">
+    <div class="header-container">
+      <h1>Privacy <span class="gradient-text">Policy</span></h1>
+      <p class="subtitle">Effective Date: June 22, 2026</p>
+    </div>
+
+    <div class="glass-card content-card">
+      <section class="policy-section">
+        <h2>Sovereignty & Privacy-First Principle</h2>
+        <p>
+          At Modulix, data privacy and sovereign control are not compliance tick-boxes—they are the core principles of our platform architecture. We host services on regional cloud systems and private bare-metal configurations, keeping your data out of public US-based analytics databases and tracking grids.
+        </p>
+      </section>
+
+      <section class="policy-section">
+        <h2>Data We Collect</h2>
+        <p>
+          We collect minimal information required to deliver services and manage relationships:
+        </p>
+        <ul>
+          <li><strong>Contact Information</strong>: Your name, business email, and company name when you fill out our contact or inquiry forms.</li>
+          <li><strong>System Configuration Declarations</strong>: Any templates, Compose configurations, or infrastructure logs you share with us during blueprint onboarding and technical audits.</li>
+          <li><strong>Anonymized Telemetry</strong>: Basic site visits tracked through local analytics nodes (like self-hosted Cloudflare analytics), without identifying individual profiles.</li>
+        </ul>
+      </section>
+
+      <section class="policy-section">
+        <h2>How We Use Your Data</h2>
+        <p>
+          Your information is used strictly to:
+        </p>
+        <ul>
+          <li>Review and process your technical consultation requests.</li>
+          <li>Provision virtual machines, SSH-keys, and container stacks in accordance with your specified blueprints.</li>
+          <li>Respond to technical and support tickets.</li>
+        </ul>
+        <p>
+          <strong>We never sell, rent, or trade your data or infrastructure profiles with third-party advertising brokers or public AI training pipelines.</strong>
+        </p>
+      </section>
+
+      <section class="policy-section">
+        <h2>GDPR Compliance & Sovereign Data Rights</h2>
+        <p>
+          Because we operate in Newbury, Berkshire, UK, all client data falls under UK-GDPR guidelines. You have the right to request access to, correction of, or complete deletion of all contact records and blueprint configurations we hold on your behalf.
+        </p>
+        <p>
+          For any data requests or technical privacy questions, please contact our team at <strong>privacy@fluffycheese.co.uk</strong>.
+        </p>
+      </section>
+    </div>
+  </div>
+
+  <style>
+    .privacy-page {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header-container {
+      text-align: center;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+
+    /* Content Card */
+    .content-card {
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .policy-section h2 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    .policy-section p {
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    .policy-section ul {
+      list-style-type: none;
+      margin-bottom: 1rem;
+    }
+
+    .policy-section li {
+      margin-bottom: 0.75rem;
+      position: relative;
+      padding-left: 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .policy-section li::before {
+      content: "▪";
+      position: absolute;
+      left: 0;
+      color: var(--accent-cyan);
+    }
+
+    .policy-section li strong {
+      color: #ffffff;
+    }
+
+    @media (max-width: 768px) {
+      .content-card {
+        padding: 2rem 1.5rem;
+      }
+    }
+  </style>
+</Layout>

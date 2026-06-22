@@ -1,0 +1,372 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Modulix Subscriptions",
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "GBP",
+    "lowPrice": "300.00",
+    "highPrice": "2000.00",
+    "offerCount": "3"
+  }
+};
+---
+
+<BaseLayout
+  title="Service Tiers & Unit Economics - Modulix"
+  description="Transparent pricing structures for Modulix services. Compare our Standard Debian/Swarm tier, Enterprise NixOS tier, and AI-Managed enhancements."
+  schema={schema}
+>
+  <div class="pricing-page">
+    <!-- Header -->
+    <div class="header-container">
+      <div class="badge">Predictable Billing</div>
+      <h1>Simple Tiers, <span class="gradient-text">Massive ROI</span></h1>
+      <p class="subtitle">
+        Modulix decouples infrastructure management from human headcount. Pay for automation, not billing hours.
+      </p>
+    </div>
+
+    <!-- Pricing Grid -->
+    <section class="pricing-section">
+      <div class="pricing-grid">
+        <!-- Standard Tier -->
+        <div class="glass-card pricing-card">
+          <div class="card-header">
+            <h3>Standard (Core)</h3>
+            <p class="desc">Robust, lightweight orchestration for growing digital companies.</p>
+            <div class="price">
+              <span class="currency">£</span>
+              <span class="amount">300</span>
+              <span class="period">/mo starting</span>
+            </div>
+          </div>
+          <div class="card-features">
+            <ul>
+              <li><strong>Debian + Docker Swarm</strong> stack</li>
+              <li>Canopy Security Baseline config</li>
+              <li>Automated daily backups</li>
+              <li>99.9% host uptime SLA</li>
+              <li>Resource metrics via Prometheus</li>
+              <li>Standard email support</li>
+            </ul>
+          </div>
+          <a href="/contact/?tier=standard" class="btn btn-secondary" id="pricingStandardCta">Get Started</a>
+        </div>
+
+        <!-- Enterprise Tier (Highlighted) -->
+        <div class="glass-card pricing-card featured-card">
+          <div class="card-header">
+            <div class="popular-badge">Recommended</div>
+            <h3>Enterprise</h3>
+            <p class="desc">For regulatory-critical or high-scale applications requiring absolute integrity.</p>
+            <div class="price">
+              <span class="currency">£</span>
+              <span class="amount">1,200</span>
+              <span class="period">/mo starting</span>
+            </div>
+          </div>
+          <div class="card-features">
+            <ul>
+              <li><strong>NixOS Immutable</strong> system</li>
+              <li>Canopy Security Baseline configuration</li>
+              <li>Zero-Drift assurance via rebuilds</li>
+              <li>Full GitOps commit traceability</li>
+              <li>Centralized Grafana observability</li>
+              <li>99.95% host uptime SLA</li>
+              <li>24/7 Priority support channel</li>
+            </ul>
+          </div>
+          <a href="/contact/?tier=enterprise" class="btn btn-primary" id="pricingEnterpriseCta">Deploy Immutable</a>
+        </div>
+
+        <!-- AI-Managed Add-on -->
+        <div class="glass-card pricing-card">
+          <div class="card-header">
+            <h3>AI-Managed (Add-on)</h3>
+            <p class="desc">Autonomous ops for engineering teams looking for a force multiplier.</p>
+            <div class="price">
+              <span class="currency">+£</span>
+              <span class="amount">300</span>
+              <span class="period">/mo addition</span>
+            </div>
+          </div>
+          <div class="card-features">
+            <ul>
+              <li><strong>Dual-Stack Parity</strong> coverage</li>
+              <li>AI-Ops Transpile automation</li>
+              <li>QA Validator shadow VM testing</li>
+              <li>Autonomous Self-Healing agents</li>
+              <li>Continuous code-to-state validation</li>
+              <li>Priority access to custom blueprints</li>
+            </ul>
+          </div>
+          <a href="/contact/?tier=ai" class="btn btn-secondary" id="pricingAiCta">Enhance with AI</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Onboarding Fee Info -->
+    <section class="onboarding-section">
+      <div class="glass-card onboarding-banner">
+        <div class="onboarding-content">
+          <h2>One-Time Blueprinting & Migration</h2>
+          <p>
+            Every transition starts with an audit. We translate your legacy snowflake servers into clean, version-controlled YAML blueprints. 
+          </p>
+          <p>
+            Migration onboarding fees range from <strong>£2,000 to £10,000</strong> depending on the scale and complexity of your current environments. This investment covers full transpiler validation and initial QA shadow deployments to ensure zero migration downtime.
+          </p>
+        </div>
+        <div class="onboarding-action">
+          <a href="/contact/?topic=migration" class="btn btn-secondary" id="pricingOnboardingCta">Request Migration Estimate</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+      <h2>Frequently Asked Questions</h2>
+      
+      <div class="faq-grid">
+        <div class="glass-card faq-card">
+          <h4>What is "Configuration Drift"?</h4>
+          <p>
+            Configuration Drift happens when manual changes are made to a running server (like updating a config file, tweaking permissions, or installing a quick patch) but are not recorded in code. Over time, servers deviate from their original clean state, making them unstable, impossible to duplicate, and highly vulnerable to security gaps.
+          </p>
+        </div>
+
+        <div class="glass-card faq-card">
+          <h4>What are the benefits of hosting sovereign?</h4>
+          <p>
+            US-based hyperscalers (like AWS and Azure) make you vulnerable to pricing volatility, unpredictable data egress fees, and complex US data sharing laws (like the CLOUD Act). Modulix lets you host on regional, independent infrastructure provider networks or your own bare-metal servers, ensuring complete alignment with UK-GDPR and security directives.
+          </p>
+        </div>
+
+        <div class="glass-card faq-card">
+          <h4>How do local AI agents guarantee privacy?</h4>
+          <p>
+            Unlike other platforms that send configuration and code data to public OpenAI/Anthropic APIs, Modulix hosts open weights LLMs (like Codestral and Llama 3) on our own air-gapped GPU clusters. Your network maps, secrets, and architecture files never leave our private nodes.
+          </p>
+        </div>
+
+        <div class="glass-card faq-card">
+          <h4>Can we migrate from standard VPS/AWS setups?</h4>
+          <p>
+            Absolutely. As part of our one-time blueprint onboarding, we ingest your existing Docker Compose configurations, Kubernetes specifications, or manual server profiles and build matching Modulix blueprints.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <style>
+    .pricing-page {
+      display: flex;
+      flex-direction: column;
+      gap: 6rem;
+    }
+
+    .header-container {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header-container p {
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      color: var(--accent-cyan);
+      padding: 0.35rem 0.85rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      line-height: 1.6;
+    }
+
+    /* Pricing Section */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr 1fr;
+      align-items: stretch;
+      gap: 2rem;
+    }
+
+    .pricing-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 3rem 2rem;
+      position: relative;
+    }
+
+    .featured-card {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 10px 40px rgba(6, 182, 212, 0.1);
+      background: rgba(24, 24, 27, 0.85);
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+      background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+      color: #000000;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-header h3 {
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-header .desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      min-height: 48px;
+    }
+
+    .price {
+      margin-bottom: 2rem;
+      color: #ffffff;
+    }
+
+    .price .currency {
+      font-size: 1.5rem;
+      font-weight: 700;
+      vertical-align: top;
+    }
+
+    .price .amount {
+      font-size: 3rem;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
+      line-height: 1;
+    }
+
+    .price .period {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .card-features {
+      margin-bottom: 2.5rem;
+    }
+
+    .card-features ul {
+      list-style: none;
+    }
+
+    .card-features li {
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+      position: relative;
+      padding-left: 1.75rem;
+    }
+
+    .card-features li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--accent-cyan);
+      font-weight: bold;
+    }
+
+    .card-features li strong {
+      color: #ffffff;
+    }
+
+    /* Onboarding section */
+    .onboarding-banner {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      align-items: center;
+      gap: 3rem;
+      padding: 3rem;
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+
+    .onboarding-content p {
+      margin-bottom: 1rem;
+    }
+
+    .onboarding-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* FAQ section */
+    .faq-section h2 {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .faq-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding: 2.5rem;
+    }
+
+    .faq-card h4 {
+      font-size: 1.2rem;
+      color: #ffffff;
+    }
+
+    .faq-card p {
+      font-size: 0.95rem;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* Responsive Adaptation */
+    @media (max-width: 992px) {
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .onboarding-banner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+      }
+
+      .faq-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</Layout>

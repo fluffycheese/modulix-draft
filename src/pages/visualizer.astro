@@ -1,0 +1,223 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Modulix Interactive Visualizer",
+  "description": "Simulate mutable configuration drift vs. immutable blueprints using our interactive 3D physics demonstration."
+};
+---
+
+<BaseLayout
+  title="Interactive Physics Visualizer - Modulix"
+  description="Experience the difference between traditional mutable infrastructure (drifting Jenga tower) and declarative immutable infrastructure in real-time."
+  schema={schema}
+>
+  <div class="visualizer-page">
+    <div class="header-container">
+      <div class="badge">Interactive Simulation</div>
+      <h1>Jenga vs. Blueprint <span class="gradient-text">Visualizer</span></h1>
+      <p class="subtitle">
+        A real-time 3D physics demonstration contrasting the instability of mutable configuration patches against the predictability of declarative blueprint rebuilds.
+      </p>
+    </div>
+
+    <!-- The 3D Simulation Frame -->
+    <div class="iframe-container glass-card">
+      <iframe src="/visualizer/index.html" title="Modulix Jenga vs Blueprint Physics Visualizer" id="visualizerIframe"></iframe>
+    </div>
+
+    <!-- Educational Breakdown -->
+    <section class="explanation-section">
+      <h2>How the Simulation Works</h2>
+      
+      <div class="explanation-grid">
+        <div class="glass-card exp-card">
+          <div class="card-num">01</div>
+          <h3>Mutable Infrastructure (Left)</h3>
+          <p>
+            When you click "Update Application" or "Update OS", the Left Tower representing mutable infrastructure receives <strong>micro-adjustments (drift impulses)</strong>. 
+          </p>
+          <p>
+            These impulses simulate manual hotfixes, security patches, and ad-hoc configuration adjustments made directly on live nodes. As drift accumulates, the center of gravity shifts, and the tower collapses under its own structural incoherence.
+          </p>
+        </div>
+
+        <div class="glass-card exp-card">
+          <div class="card-num">02</div>
+          <h3>Immutable Infrastructure (Right)</h3>
+          <p>
+            When an update is triggered, the Right Tower representing Modulix is <strong>instantly rebuilt from its declared configuration</strong> (the blueprint).
+          </p>
+          <p>
+            The system does not "patch" the existing blocks. Instead, it destroys the old tower and generates a fresh, perfect tower based on the Git blueprint. Every single deployment is identical, ensuring zero configuration drift.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical Specs of the Visualizer -->
+    <section class="tech-spec-section">
+      <div class="glass-card tech-spec-card">
+        <h3>Simulation Technology Stack</h3>
+        <div class="tech-tags">
+          <span class="tag">Three.js</span>
+          <span class="tag">Cannon-es (Physics)</span>
+          <span class="tag">WebGL</span>
+          <span class="tag">ES Modules</span>
+          <span class="tag">HTML5 Canvas</span>
+        </div>
+        <p>
+          This simulation is running locally on your browser using hardware-accelerated WebGL. The physics constraints use rigid body bodies with frictional forces, demonstrating how physical systems mimic technical systems.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <style>
+    .visualizer-page {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      padding-top: 1rem;
+    }
+
+    .header-container {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header-container p {
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      color: var(--accent-cyan);
+      padding: 0.35rem 0.85rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+
+    /* Simulation Frame */
+    .iframe-container {
+      width: 100%;
+      height: 70vh;
+      min-height: 500px;
+      padding: 0;
+      overflow: hidden;
+      border-color: rgba(6, 182, 212, 0.2);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .iframe-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* Explanation Section */
+    .explanation-section h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .explanation-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .exp-card {
+      position: relative;
+      padding-top: 3rem;
+    }
+
+    .card-num {
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.05);
+      line-height: 1;
+    }
+
+    .exp-card h3 {
+      font-size: 1.35rem;
+      margin-bottom: 1rem;
+      color: #ffffff;
+    }
+
+    .exp-card p {
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    .exp-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Tech Specs */
+    .tech-spec-section {
+      max-width: 800px;
+      margin: 0 auto width 100%;
+      width: 100%;
+    }
+
+    .tech-spec-card {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .tech-tags {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .tag {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.85rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    @media (max-width: 768px) {
+      .explanation-grid {
+        grid-template-columns: 1fr;
+      }
+      .iframe-container {
+        height: 50vh;
+      }
+    }
+  </style>
+</Layout>

@@ -1,0 +1,512 @@
+---
+const {
+  title,
+  description,
+  schema,
+  ogImage = "/images/og-default.jpg"
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  
+  <!-- Cloudflare Web Analytics (Reused token or placeholder for fluffycheese subdomains) -->
+  <script defer 
+    src='https://static.cloudflareinsights.com/beacon.min.js' 
+    data-cf-beacon='{"token": "4a23c53b40e34662a6ed1dd09dfb8a38"}'>
+  </script>
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Modulix" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={Astro.url} />
+  <meta property="og:image" content={ogImage} />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <!-- Canonical -->
+  <link rel="canonical" href={Astro.url} />
+  <meta name="robots" content="index, follow" />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+
+  <!-- Fonts: Outfit (headings) & Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+  <!-- JSON-LD Schema -->
+  {schema && (
+    <script type="application/ld+json" is:inline>
+      {JSON.stringify(schema)}
+    </script>
+  )}
+
+  <style is:global>
+    :root {
+      /* Premium HSL Color Palette */
+      --bg: #09090b;             /* Zinc 950 */
+      --card-bg: #18181b;        /* Zinc 900 */
+      --text: #f4f4f5;           /* Zinc 100 */
+      --text-muted: #a1a1aa;     /* Zinc 400 */
+      --border: #27272a;         /* Zinc 800 */
+      
+      --accent-cyan: #06b6d4;    /* Cyan 500 */
+      --accent-cyan-hover: #0891b2; /* Cyan 600 */
+      --accent-blue: #3b82f6;    /* Blue 500 */
+      --accent-indigo: #6366f1;  /* Indigo 500 */
+      
+      --max-width: 1200px;
+      --transition-speed: 0.3s;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      color: #ffffff;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 1.5rem;
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 75ch;
+      margin-bottom: 1.5rem;
+    }
+
+    a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+      transition: color var(--transition-speed) ease;
+    }
+
+    a:hover {
+      color: #ffffff;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 50px;
+      transition: all var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      border: none;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+      color: #000000;
+      box-shadow: 0 4px 14px rgba(6, 182, 212, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(6, 182, 212, 0.45);
+      color: #000000;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--text-muted);
+    }
+
+    /* Sticky Glassmorphism Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      background-color: rgba(9, 9, 11, 0.8);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: background-color var(--transition-speed) ease;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      width: 100%;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+    }
+
+    .brand a {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #ffffff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .brand a:hover .brand-logo {
+      transform: rotate(15deg) scale(1.05);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      color: var(--text-muted);
+      transition: color var(--transition-speed) ease;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: #ffffff;
+      text-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+
+    main {
+      flex: 1;
+      padding: 4rem 0;
+    }
+
+    /* Footer */
+    footer {
+      background: #040405;
+      border-top: 1px solid var(--border);
+      padding: 4rem 0 2rem 0;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-brand p {
+      font-size: 0.95rem;
+      max-width: 350px;
+    }
+
+    .footer-links h4 {
+      font-size: 1.1rem;
+      margin-bottom: 1.25rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ffffff;
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+    }
+
+    .footer-links a:hover {
+      color: #ffffff;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1.25rem;
+    }
+
+    .social-links a svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--text-muted);
+      transition: fill var(--transition-speed) ease, transform var(--transition-speed) ease;
+    }
+
+    .social-links a:hover svg {
+      fill: var(--accent-cyan);
+      transform: translateY(-2px);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 80px;
+        left: 0;
+        right: 0;
+        background: rgba(9, 9, 11, 0.95);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+        padding: 2rem;
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: flex-start;
+        opacity: 0;
+        transform: translateY(-10px);
+        pointer-events: none;
+        transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
+      }
+
+      .nav-links.active {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    /* Modern grid layouts & interactive elements */
+    .glass-card {
+      background: rgba(24, 24, 27, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: border-color var(--transition-speed) ease, transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(6, 182, 212, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(6, 182, 212, 0.05);
+    }
+  </style>
+</head>
+
+<body>
+
+  <header id="mainHeader">
+    <div class="container nav">
+      <div class="brand">
+        <a href="/" id="homeLink">
+          <img src="/logo.svg" alt="Modulix Logo" class="brand-logo" />
+          <span>Modulix</span>
+        </a>
+      </div>
+
+      <button
+        class="menu-toggle"
+        aria-label="Toggle navigation"
+        aria-expanded="false"
+        aria-controls="navLinks"
+        id="menuBtn"
+      >
+        ☰
+      </button>
+
+      <nav class="nav-links" id="navLinks" aria-hidden="true">
+        <a href="/" class="nav-item">Platform</a>
+        <a href="/architecture/" class="nav-item">Architecture</a>
+        <a href="/pricing/" class="nav-item">Pricing</a>
+        <a href="/visualizer/" class="nav-item">Visualizer</a>
+        <a href="/contact/" class="btn btn-secondary btn-sm" id="navContactCta">Request Access</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <slot />
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>
+            <img src="/logo.svg" alt="Modulix Logo" style="width: 28px; height: 28px;" />
+            Modulix
+          </h3>
+          <p>
+            Autonomous, blueprint-driven, private infrastructure that eliminates drift and vendor lock-in. Built for forward-thinking businesses.
+          </p>
+        </div>
+        <div class="footer-links">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="/#features">Features</a></li>
+            <li><a href="/architecture/">Architecture</a></li>
+            <li><a href="/pricing/">Service Tiers</a></li>
+            <li><a href="/visualizer/">Interactive Demo</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/contact/">Contact Us</a></li>
+            <li><a href="https://fluffycheese.co.uk" target="_blank" rel="noopener noreferrer">FluffyCheese Ecosystem</a></li>
+            <li><a href="/privacy/">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; {new Date().getFullYear()} Modulix. All rights reserved. Subdomain under fluffycheese.co.uk.</p>
+        <div class="social-links" aria-label="Social media links">
+          <a href="https://github.com/fluffycheese/modulix" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.372.82 1.102.82 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Menu toggle script -->
+  <script is:inline>
+    const toggle = document.getElementById('menuBtn');
+    const nav = document.getElementById('navLinks');
+    
+    function openMenu() {
+      nav.classList.add('active');
+      toggle.setAttribute('aria-expanded', 'true');
+      nav.setAttribute('aria-hidden', 'false');
+    }
+    
+    function closeMenu() {
+      nav.classList.remove('active');
+      toggle.setAttribute('aria-expanded', 'false');
+      nav.setAttribute('aria-hidden', 'true');
+    }
+    
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      nav.classList.contains('active') ? closeMenu() : openMenu();
+    });
+    
+    document.addEventListener('click', (e) => {
+      if (!nav.contains(e.target) && !toggle.contains(e.target)) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeMenu();
+        toggle.focus();
+      }
+    });
+
+    // Mark active nav link based on current path
+    const path = window.location.pathname;
+    const navLinksList = document.querySelectorAll('.nav-item');
+    navLinksList.forEach(link => {
+      const linkPath = link.getAttribute('href');
+      if (linkPath === path || (linkPath !== '/' && path.startsWith(linkPath))) {
+        link.classList.add('active');
+      }
+    });
+  </script>
+</body>
+</html>

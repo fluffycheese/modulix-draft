@@ -1,0 +1,17 @@
+# Node modules
+node_modules/
+
+# Astro build & cache
+dist/
+.astro/
+
+# Local environment / TypeScript hints
+src/env.d.ts
+
+# Lock file (optional, if you prefer)
+package-lock.json
+
+# OS / editor
+.DS_Store
+*.swp
+GEMINI.md
